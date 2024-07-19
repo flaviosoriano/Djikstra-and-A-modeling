@@ -115,13 +115,9 @@ int GrafoList::djkistra(int energia, int maxPortais) const{
     int n = this->maxVertices;
 
     float distancias[n][maxPortais + 1];
-     for (int i = 1; i < this->maxVertices; i++){
-          for(int j =  0; j < maxPortais; j++){
+     for (int i = 0; i <= this->maxVertices; i++){
+          for(int j =  0; j <= maxPortais; j++){
                distancias[i][j] = 999.0;
-               //inicializar os valores do inicio apenas uma vez
-               if(i == 1){
-                    distancias[0][j] = 0;
-               }
           }
      }
 
@@ -129,7 +125,7 @@ int GrafoList::djkistra(int energia, int maxPortais) const{
     Vertex* vInicial = this->findVertice(0);
     pq.inserir(vInicial, 0, 0);
 
-    std::cout << "Inicializando Dijkstra" << std::endl;
+    std::cout << "Inicializando Dijkstra com energia " << energia <<" e portais: "<< maxPortais << std::endl;
 
     while (!pq.empty()) {
         Caminho auxCaminho = pq.retirar();
@@ -139,17 +135,17 @@ int GrafoList::djkistra(int energia, int maxPortais) const{
 
         std::cout << "Retirado da fila: id=" << id << ", dist=" << dist << ", portaisUsados=" << portaisUsados << std::endl;
 
-        if (id == (n - 1)) {
-            std::cout << "Chegou ao último vértice: " << id << std::endl;
-            break;
-        }
-
         if (distancias[id][portaisUsados] < dist) {
-            std::cout << "Distância armazenada é menor, continuando..." << std::endl;
+            std::cout << "Distância armazenada(" << distancias[id][portaisUsados] <<")é menor que " << dist <<", continuando..." << std::endl;
             continue;
         }
 
         distancias[id][portaisUsados] = dist;
+
+          if (id == (n - 1)) {
+            std::cout << "Chegou ao último vértice: " << id << std::endl;
+            break;
+          }
 
         Vertex* verticeAtual = auxCaminho.verticeAtual;
         Aresta* auxAresta = verticeAtual->arestaHead;
@@ -166,7 +162,7 @@ int GrafoList::djkistra(int energia, int maxPortais) const{
                
             if (novosPortaisUsados <= maxPortais && distancias[auxAresta->verticeConectado->id][novosPortaisUsados] > novaDistancia) {
                 distancias[auxAresta->verticeConectado->id][novosPortaisUsados] = novaDistancia;
-                pq.inserir(auxAresta->verticeConectado, -novaDistancia, novosPortaisUsados);
+                pq.inserir(auxAresta->verticeConectado, novaDistancia, novosPortaisUsados);
 
                 std::cout << "Atualizando distância do vértice " << auxAresta->verticeConectado->id
                           << " para " << novaDistancia << " com " << novosPortaisUsados << " portais usados" << std::endl;
@@ -177,16 +173,14 @@ int GrafoList::djkistra(int energia, int maxPortais) const{
 
     std::cout << "Finalizando Dijkstra" << std::endl;
 
-     for (int i = 0; i <= maxPortais; ++i) {
+     for (int i = 0; i <= maxPortais; i++) {
           std::cout << "distancia ate o final com "<<i<< " portais: " << distancias[n - 1][i] << std::endl;
      }
-     for (int i = 0; i <= maxPortais; ++i) {
+     for (int i = 0; i <= maxPortais; i++) {
           if ((distancias[n - 1][i]) <= energia) {
                return 1;
           }
      }
-    
-
     return 0;
 };
 
@@ -226,9 +220,12 @@ int GrafoList::aEstrela(int maxEnergia, int maxPortais, Vertex* vInicio, Vertex*
                std::cout << "aresta " << adjacente.verticeId << "retirada" << std::endl;
                NodeA adjacenteNode(adjacente.verticeAtual, vInicio, vFinal, adjacente.distancia, adjacente.portais);
                if(adjacente.verticeAtual->getId() == vFinal->getId()){
+                    std::cout << " distancia encontrada: " << adjacenteNode.getF() << " energia maxima é: " << maxEnergia << std::endl;
                     if (adjacenteNode.getF() <= maxEnergia && adjacenteNode.getPortaisUsados() <= maxPortais){
+                         std::cout << "Deu certo" << std::endl;
                          return 1;
                     } else{
+                         std::cout << "deu errado" << std::endl;
                          return 0;
                     }
                }

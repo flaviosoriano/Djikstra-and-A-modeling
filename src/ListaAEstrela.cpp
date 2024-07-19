@@ -103,7 +103,7 @@ NodeA ListaAEstrela::retirar(){
      this->heap[this->finalIndex] = NodeA();
      this->tamanhoAtual--;
      this->finalIndex--;
-     menorCaminho.setF(-menorCaminho.getF());
+     //menorCaminho.setF(-menorCaminho.getF());
      maxHeapify(1);
 
      std::cout << "1 lugar por heapfy na retirada: " << this->heap[1].getVerticeAtual()->getId() << std::endl;

@@ -13,7 +13,7 @@ struct Caminho{
      float distancia;
      int portais;
 
-     Caminho() : verticeAtual(nullptr),verticeId(-1), distancia(-1), portais(0){};
+     Caminho() : verticeAtual(nullptr),verticeId(999), distancia(-999), portais(0){};
      Caminho(Vertex* verticeAtual, float distancia, int portal):
      verticeAtual(verticeAtual), distancia(distancia), portais(portal){
           verticeId = verticeAtual->getId();
