@@ -26,10 +26,6 @@
      }
 
      NodeA::~NodeA(){
-
-          delete this->verticeAtual;
-          delete this->verticeFinal;
-          delete this->verticeInicial;
      };
 
      void NodeA::setF(float f){
