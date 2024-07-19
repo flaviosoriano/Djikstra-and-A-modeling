@@ -26,8 +26,8 @@ int main(){
      }
      int energia, maxPortais;
      std::cin >> energia >> maxPortais;
-     /*int resultado = floresta.djkistra(energia, maxPortais);
-     std::cout << resultado << std::endl;*/
+     //int resultado = floresta.djkistra(energia, maxPortais);
+     //std::cout << resultado << std::endl;
      int resultadoA = floresta.aEstrela(energia, maxPortais, floresta.getVerticeInicio(), floresta.getVerticeFinal());
      std::cout << resultadoA << std::endl;
 }

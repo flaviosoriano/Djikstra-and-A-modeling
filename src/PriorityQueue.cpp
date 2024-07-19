@@ -66,7 +66,7 @@ void PriorityQueue::inserir(Vertex* vertice, float distancia, int portaisUsados)
 
      this->maxHeapify(parentIndex);
 
-     for(int i = 0; i < finalIndex; i++){
+     for(int i = 0; i <= finalIndex; i++){
           std::cout << "fila tem:" << this->heap[i].verticeId << std::endl;
      }
 }

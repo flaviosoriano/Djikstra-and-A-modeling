@@ -9,6 +9,7 @@ class ListaAEstrela{
       private:
           //heap dos nodulos
           NodeA** heap;
+          NodeA* copias;
           int tamanhoAtual;
           int tamanhoMax;
           int finalIndex;
@@ -20,7 +21,7 @@ class ListaAEstrela{
           ~ListaAEstrela();
 
           bool empty() const;
-          NodeA* find(NodeA node) const;
+          NodeA* find(NodeA* node) const;
 
           void inserir(NodeA* node);
           NodeA* retirar();

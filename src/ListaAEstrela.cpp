@@ -46,10 +46,10 @@ bool ListaAEstrela::empty() const{
      return (this->tamanhoAtual == 0);
 }
 
-NodeA* ListaAEstrela::find(NodeA node) const{
+NodeA* ListaAEstrela::find(NodeA* node) const{
      std::cout << "entrou no find" << std::endl;
      for (int i = 0; i < this->finalIndex; i++){
-          if (this->heap[i]->getVerticeAtual()->getId() == node.getVerticeAtual()->getId()){
+          if (this->heap[i]->getVerticeAtual()->getId() == node->getVerticeAtual()->getId()){
                std::cout << "achou igual e retornou" << std::endl;
                return this->heap[i];
           }
@@ -88,7 +88,7 @@ void ListaAEstrela::inserir(NodeA* node){
      this->maxHeapify(parentIndex);
 
      for(int i = 1; i <= this->finalIndex; i++){
-          std::cout << "fila tem:" << this->heap[i]->getVerticeAtual()->getId() << std::endl;
+          std::cout << "fila aberta/fechada tem:" << this->heap[i]->getVerticeAtual()->getId() << std::endl;
      }
 }
 

@@ -205,6 +205,7 @@ int GrafoList::aEstrela(int maxEnergia, int maxPortais, Vertex* vInicio, Vertex*
      while(!abertos.empty()){
           //pode ser pointer?
           NodeA* current = abertos.retirar();
+          std::cout << "aberto atualmente: " << current->getVerticeAtual()->getId() << std::endl;
 
           int arestasAtuais = current->getVerticeAtual()->getNArestas();
           PriorityQueue adjacentes(arestasAtuais);
@@ -216,36 +217,38 @@ int GrafoList::aEstrela(int maxEnergia, int maxPortais, Vertex* vInicio, Vertex*
                float dist = auxAresta->tamanhoAresta + current->getG();
                adjacentes.inserir(auxAresta->verticeConectado, dist, current->getPortaisUsados() + (auxAresta->portal ? 1 : 0));
                std::cout << "Aresta " << i + 1 << "do vertice " << current->getVerticeAtual()->getId()<< "inserida" << std::endl;
+               auxAresta = auxAresta->next;
           }
 
           while (!adjacentes.empty()){
+          
                Caminho adjacente = adjacentes.retirar();
                std::cout << "aresta " << adjacente.verticeId << "retirada" << std::endl;
                NodeA* adjacenteNode = new NodeA(adjacente.verticeAtual, vInicio, vFinal, adjacente.distancia, adjacente.portais);
-               if(adjacente.verticeAtual == vFinal){
+               if(adjacente.verticeAtual->getId() == vFinal->getId()){
                     if (adjacenteNode->getF() <= maxEnergia && adjacenteNode->getPortaisUsados() <= maxPortais){
                          return 1;
                     } else{
                          return 0;
                     }
                }
-               std::cout << "aaaaaa" << std::endl;
+               std::cout << "AdjacenteNode criado com sucesso" << std::endl;
                NodeA* nodeAtualAberto = abertos.find(adjacenteNode);
                if (nodeAtualAberto != nullptr){
                     if (nodeAtualAberto->getF() < adjacenteNode->getF()){
+                         std::cout << "node atual ja esta aberto e com distancia menor" << std::endl;
                          continue;
-                    }else{
-                         nodeAtualAberto->~NodeA();
                     }
                } 
+               delete nodeAtualAberto;
                NodeA* nodeAtualFechado = fechados.find(adjacenteNode);
                if (nodeAtualFechado != nullptr){
                     if (nodeAtualFechado->getF() < adjacenteNode->getF()){
+                         std::cout << "node ja esta fechado e com distancia menor" << std::endl;
                          continue;
-                    }else{
-                         nodeAtualFechado->~NodeA();
                     }
                }
+               delete nodeAtualFechado;
                std::cout << "bbbbbbb" << std::endl;
                abertos.inserir(adjacenteNode);
                std::cout << "cccccc" << std::endl;
