@@ -1,60 +1,10 @@
 #include "GrafoL.hpp"
+#include "VertexL.hpp"
 #include "ParOrdenado.hpp"
 #include "PriorityQueue.hpp"
 #include "NoduloAEstrela.hpp"
 #include "ListaAestrela.hpp"
-#include <math.h>
 #include <iostream>
-
-
-Vertex::Vertex(int id, int x, int y): id(id), cord(x, y), next(nullptr),
-arestaHead(nullptr), arestaTail(nullptr), nArestas(0){};
-
-Vertex::~Vertex() {
-    Aresta* current = arestaHead;
-    while (current != nullptr) {
-        Aresta* next = current->next;
-        delete current;
-        current = next;
-    }
-}
-
-void Vertex::addAresta(Vertex* v, bool isPortal){
-     float dist = -1;
-     if (isPortal){
-          dist = 0;
-     }else{
-          dist = this->cord.distancia(v->cord);
-     }
-
-     Aresta* novaAresta = new Aresta(v, dist, isPortal);
-     if (this->arestaHead == nullptr){
-          this->arestaHead = novaAresta;
-     } else{
-          this->arestaTail->next = novaAresta;
-     }
-     this->arestaTail = novaAresta;
-     this->nArestas++;
-};
-
-Aresta* Vertex::getArestas() const{
-     return this->arestaHead;
-};
-
-int Vertex::getNArestas() const{
-     return this->nArestas;
-};
-
-int Vertex::getId() const{
-     return this->id;
-};
-
-ParOrdenado Vertex::getCord() const{
-     return this->cord;
-};
-
-
-
 
 GrafoList::GrafoList(int maxVertices, int maxArestas): maxVertices(maxVertices), maxArestas(maxArestas)
 , verticesHead(nullptr), verticesTail(nullptr), verticesAdicionados(0) {};
@@ -62,7 +12,7 @@ GrafoList::GrafoList(int maxVertices, int maxArestas): maxVertices(maxVertices),
 GrafoList::~GrafoList() {
     Vertex* current = verticesHead;
     while (current != nullptr) {
-        Vertex* next = current->next;
+        Vertex* next = current->getNext();
         delete current;
         current = next;
     }
@@ -73,7 +23,7 @@ void GrafoList::addVertice(int id, int x, int y){
      if (this->verticesHead == nullptr){
           this->verticesHead = novoVertice;
      } else{
-          this->verticesTail->next = novoVertice;
+          this->verticesTail->addNextVertex(novoVertice);
      }
      this->verticesTail = novoVertice;
 
@@ -82,10 +32,10 @@ void GrafoList::addVertice(int id, int x, int y){
 Vertex* GrafoList::findVertice(int id) const{
      Vertex* aux = this->verticesHead;
      while(aux != nullptr){
-          if(aux->id == id){
+          if(aux->getId() == id){
                return aux;
           }
-          aux = aux->next;
+          aux = aux->getNext();
      }
      return nullptr;
 };
@@ -148,7 +98,7 @@ int GrafoList::djkistra(int energia, int maxPortais) const{
           }
 
         Vertex* verticeAtual = auxCaminho.verticeAtual;
-        Aresta* auxAresta = verticeAtual->arestaHead;
+        Aresta* auxAresta = verticeAtual->getArestas();
 
         std::cout << "Explorando arestas do vértice: " << id << std::endl;
 
@@ -156,15 +106,15 @@ int GrafoList::djkistra(int energia, int maxPortais) const{
             float novaDistancia = dist + auxAresta->tamanhoAresta;
             int novosPortaisUsados = portaisUsados + (auxAresta->portal ? 1 : 0);
 
-            std::cout << "Verificando aresta para vértice: " << auxAresta->verticeConectado->id
+            std::cout << "Verificando aresta para vértice: " << auxAresta->verticeConectado->getId()
                       << ", novaDistancia=" << novaDistancia
                       << ", novosPortaisUsados=" << novosPortaisUsados << std::endl;
                
-            if (novosPortaisUsados <= maxPortais && distancias[auxAresta->verticeConectado->id][novosPortaisUsados] > novaDistancia) {
-                distancias[auxAresta->verticeConectado->id][novosPortaisUsados] = novaDistancia;
+            if (novosPortaisUsados <= maxPortais && distancias[auxAresta->verticeConectado->getId()][novosPortaisUsados] > novaDistancia) {
+                distancias[auxAresta->verticeConectado->getId()][novosPortaisUsados] = novaDistancia;
                 pq.inserir(auxAresta->verticeConectado, novaDistancia, novosPortaisUsados);
 
-                std::cout << "Atualizando distância do vértice " << auxAresta->verticeConectado->id
+                std::cout << "Atualizando distância do vértice " << auxAresta->verticeConectado->getId()
                           << " para " << novaDistancia << " com " << novosPortaisUsados << " portais usados" << std::endl;
             }
             auxAresta = auxAresta->next;
@@ -246,9 +196,7 @@ int GrafoList::aEstrela(int maxEnergia, int maxPortais, Vertex* vInicio, Vertex*
                     }
                }
                delete nodeAtualFechado;
-               std::cout << "bbbbbbb" << std::endl;
                abertos.inserir(adjacenteNode);
-               std::cout << "cccccc" << std::endl;
           }
           fechados.inserir(current);
      }

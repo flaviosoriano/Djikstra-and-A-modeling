@@ -43,14 +43,11 @@ bool ListaAEstrela::empty() const{
 }
 
 NodeA* ListaAEstrela::find(NodeA* node) const{
-     std::cout << "entrou no find" << std::endl;
      for (int i = 0; i < this->finalIndex; i++){
           if (this->heap[i].getVerticeAtual()->getId() == node->getVerticeAtual()->getId()){
-               std::cout << "achou igual e retornou" << std::endl;
                return &this->heap[i];
           }
      }
-     std::cout << "retornou null" << std::endl;
      return nullptr;
 };
 
@@ -61,8 +58,6 @@ void ListaAEstrela::inserir(NodeA node){
      node.setF(-node.getF());
 
      this->finalIndex++;
-
-     std::cout << "aaaaaa" << std::endl;
 
      if (this->tamanhoAtual >= this->tamanhoMax){
          std::cout << "Erro: capacidade máxima já atingida" << std::endl;
