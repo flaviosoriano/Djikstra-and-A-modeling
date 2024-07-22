@@ -159,7 +159,7 @@ int GrafoList::aEstrela(int maxEnergia, int maxPortais, Vertex* vInicio, Vertex*
           for (int i = 0; i < arestasAtuais; i++){
                //tamanho aresta + current Tamanho sem heuristica == Distancia da aresta + distancia do vertice fonte até o inicio
                float dist = auxAresta->tamanhoAresta + current.getG();
-               adjacentes.inserir(auxAresta->verticeConectado, dist, current.getPortaisUsados() + (auxAresta->portal ? 1 : 0));
+               adjacentes.inserir(auxAresta->verticeConectado, dist, current.getPortaisUsados() + (auxAresta->portal ? 1.0 : 0.0));
                std::cout << "Aresta " << i + 1 << "do vertice " << current.getVerticeAtual()->getId()<< "inserida" << std::endl;
                auxAresta = auxAresta->next;
           }

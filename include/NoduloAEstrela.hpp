@@ -16,7 +16,7 @@ private:
      Vertex* verticeFinal;
 
 public:
-     NodeA(Vertex* vertice, Vertex* verticeInicial, Vertex* verticeFinal, int g, int portaisUsados);
+     NodeA(Vertex* vertice, Vertex* verticeInicial, Vertex* verticeFinal, float g, int portaisUsados);
      NodeA();
      ~NodeA();
 

@@ -2,7 +2,7 @@
 
 #include "GrafoL.hpp"
 
-     NodeA::NodeA(Vertex* verticeAtual, Vertex* verticeInicial, Vertex* verticeFinal, int g, int portaisUsados){
+     NodeA::NodeA(Vertex* verticeAtual, Vertex* verticeInicial, Vertex* verticeFinal, float g, int portaisUsados){
           this->verticeAtual = verticeAtual;
           this->g = g;
           this->verticeInicial = verticeInicial;
