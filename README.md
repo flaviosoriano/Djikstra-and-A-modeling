@@ -8,8 +8,6 @@
 
 ## Flávio Soriano de Souza Filho
 
-2023001999
-
 ## **DCC \- UFMG**
 
 # Introdução
